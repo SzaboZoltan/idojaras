@@ -1,5 +1,6 @@
 <?php
-require_once('configMySql.php');
+define('WROOT',$_SERVER['DOCUMENT_ROOT'] . '/idojaras/');
+require_once(WROOT . '/configMySql.php');
 /**
  * Konfigurációs file
  *
@@ -8,7 +9,7 @@ require_once('configMySql.php');
  * Date: 2015.10.20.
  * Time: 8:11
  */
-define('WROOT',$_SERVER['DOCUMENT_ROOT'] . '/idojaras/');
+
 /**
  * Print_r szépítő függvény
  * @param $data
@@ -27,7 +28,6 @@ try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connected successfully";
 }
 catch(PDOException $e)
 {
