@@ -1,4 +1,5 @@
 <?php
+require_once(WROOT.'/config.php');
 /**
  * Weboldal vezérlő
  *
@@ -12,12 +13,14 @@ class Controller{
     public $result = array();
 
     function __construct(){
-
+        $this->smarty = $GLOBALS['smarty'];
+        $this->conn = $GLOBALS['conn'];
+        $this->generateTemplate();
     }
 
-    public function tmp()
+    private function generateTemplate()
     {
-       // $smarty->display('index.tpl');
+        $this->result['template'] = $this->smarty->display('index.tpl');
     }
 
 }

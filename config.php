@@ -25,7 +25,7 @@ function printr($data)
 
 //****************************** MYSQL BEÁLLÍTÁSA *******************************************/
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $GLOBALS['conn'] = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
@@ -38,14 +38,14 @@ catch(PDOException $e)
 //****************************** SMARTY BEÁLLÍTÁSA ******************************************/
 require_once(WROOT . 'vendor/smarty/libs/Smarty.class.php');
 define('SMARTY_DIR', '/usr/local/lib/Smarty-v.e.r/libs/');
-$smarty = new Smarty;
+$GLOBALS['smarty'] = new Smarty;
 
 $smarty->setTemplateDir(WROOT . 'view/templates/');
 $smarty->setCompileDir(WROOT . 'view/templates_c/');
 //$smarty->setConfigDir('/web/www.example.com/guestbook/configs/');
 //$smarty->setCacheDir('/web/www.example.com/guestbook/cache/');
 
-$smarty->debugging = true;
+$smarty->debugging = false;
 $smarty->caching = true;
 $smarty->cache_lifetime = 120;
 //***************************SMARTY BEÁLLÍTÁSA VÉGE ******************************************/
