@@ -15,6 +15,8 @@ class Controller{
     function __construct(){
         $this->smarty = $GLOBALS['smarty'];
         $this->conn = $GLOBALS['conn'];
+
+
         $this->generateTemplate();
     }
 

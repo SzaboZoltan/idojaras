@@ -1,6 +1,8 @@
 <?php
 define('WROOT',$_SERVER['DOCUMENT_ROOT'] . '/idojaras/');
 require_once(WROOT . '/configMySql.php');
+require_once(WROOT . '/Controller/Weather.php');
+
 /**
  * Konfigurációs file
  *
