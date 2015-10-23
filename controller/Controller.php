@@ -14,15 +14,20 @@ class Controller{
 
     function __construct(){
         $this->smarty = $GLOBALS['smarty'];
-        $this->conn = $GLOBALS['conn'];
-
-
+        $this->weatherInfo();
         $this->generateTemplate();
+    }
+
+    private function weatherInfo()
+    {
+        $this->weather = new Weather();
     }
 
     private function generateTemplate()
     {
         $this->result['template'] = $this->smarty->display('index.tpl');
     }
+
+
 
 }

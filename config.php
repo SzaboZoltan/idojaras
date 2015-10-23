@@ -1,7 +1,11 @@
 <?php
-define('WROOT',$_SERVER['DOCUMENT_ROOT'] . '/idojaras/');
+define('WROOT',$_SERVER['DOCUMENT_ROOT'] . '/');
 require_once(WROOT . '/configMySql.php');
-require_once(WROOT . '/Controller/Weather.php');
+require_once(WROOT . '/controller/Controller.php');
+require_once(WROOT . '/controller/Weather.php');
+require_once(WROOT . '/model/Weather.php');
+
+error_reporting(E_ALL);
 
 /**
  * Konfigurációs file
@@ -27,9 +31,10 @@ function printr($data)
 
 //****************************** MYSQL BEÁLLÍTÁSA *******************************************/
 try {
-    $GLOBALS['conn'] = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $db= new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     // set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $GLOBALS['db'] = $db;
 }
 catch(PDOException $e)
 {

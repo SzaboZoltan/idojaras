@@ -1,6 +1,6 @@
 <?php
 require_once('config.php');
-require_once(WROOT.'/controller/Controller.php');
+echo 'ok';
 /**
  * Created by PhpStorm.
  * User: Oz
