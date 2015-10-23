@@ -3,7 +3,7 @@ define('WROOT',$_SERVER['DOCUMENT_ROOT'] . '/');
 require_once(WROOT . '/configMySql.php');
 require_once(WROOT . '/controller/Controller.php');
 require_once(WROOT . '/controller/Weather.php');
-require_once(WROOT . '/model/Weather.php');
+require_once(WROOT . '/model/WeatherModel.php');
 
 error_reporting(E_ALL);
 
@@ -53,6 +53,6 @@ $smarty->setCompileDir(WROOT . 'view/templates_c/');
 //$smarty->setCacheDir('/web/www.example.com/guestbook/cache/');
 
 $smarty->debugging = false;
-$smarty->caching = true;
+$smarty->caching = false;
 $smarty->cache_lifetime = 120;
 //***************************SMARTY BEÁLLÍTÁSA VÉGE ******************************************/

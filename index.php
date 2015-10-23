@@ -1,6 +1,5 @@
 <?php
 require_once('config.php');
-echo 'ok';
 /**
  * Created by PhpStorm.
  * User: Oz
@@ -8,4 +7,4 @@ echo 'ok';
  * Time: 21:09
  */
 $index = new Controller();
-echo $index->result['template'];
+echo $index->result->template;
