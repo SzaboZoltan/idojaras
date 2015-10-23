@@ -14,36 +14,20 @@
 
     <!-- Bootstrap core CSS -->
     <link href="/view/css/bootstrap.min.css" rel="stylesheet">
-
     <link href="/view/css/style.css" rel="stylesheet">
+    <link href="http://openlayers.org/en/v3.10.1/css/ol.css" rel="stylesheet" type="text/css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        #map {
-            height: 100%;
-        }
-    </style>
 </head>
 
 <body>
 
-
 <div class="container">
-
 {$modul}
-<div class="row">
-    <div id="map" style="height: 800px; width: 1000px;"></div>
-</div>
-
 </div><!-- /.container -->
 
 
@@ -55,9 +39,8 @@
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="/view/js/ie10-viewport-bug-workaround.js"></script>
 {literal}<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC87tJdE5cPhQKZRS7RxbKX2QN5rmnHzNQ&signed_in=true" type="text/javascript"></script>
+    <script src="http://openlayers.org/en/v3.10.1/build/ol.js" type="text/javascript"></script>
 <script src="/view/js/main.js"></script>
-
-
 {/literal}
 </body>
 </html>

@@ -19,7 +19,7 @@ class Weather {
         $ajaxFunction = (isset($_REQUEST['ajaxFunction']) && !empty($_REQUEST['ajaxFunction']))?$_REQUEST['ajaxFunction']:false;
         $this->getCitys();
         $this->result->allData['cityList'] = $this->cityList;
-        $this->defaultsFunctions();
+        $this->getWeatherInfo();
 
         if(!$ajaxFunction) {
             $this->result->template = "weather.tpl";
@@ -28,26 +28,70 @@ class Weather {
                 case "saveWeatherAjax":
                    $this->saveWeatherAjax();
                    break;
+                case "exportXML":
+                    $this->exportXML();
+                    break;
+                case "exportXLS":
+                    $this->exportXLS();
+                    break;
+                case "exportCSV":
+                    $this->exportCSV();
+                    break;
                 default:
                     return false;
             }
         }
-        //printr($this->result);
         return;
     }
 
     /**
-     * Alapértelmezett függvények
+     * Időjárás lekérése adatbázisból
      */
-    private function defaultsFunctions()
+    private function getWeatherInfo()
     {
         foreach($this->cityList as $city) {
             $weatherModel = new WeatherModel();
             $weatherModel->data = $city['id'];
             $weatherModel->getWeather();
-            $this->result->allData['cityWeatherInfo'][$city['id']] = $weatherModel->result;
+            $this->result->allData['cityWeatherInfo'][$city['id']] = $city;
+            $this->result->allData['cityWeatherInfo'][$city['id']]['info'] = $weatherModel->result;
+            $this->result->allData['cityWeatherInfo'][$city['id']]['geoData'] = $this->geocode($city['city'] . ', ' . $city['country']);
+            $this->result->allData['cityWeatherInfo'][$city['id']]['table'] = $this->generateTable($weatherModel->result, $city['city']);
         }
+        //printr($this->result->allData['cityWeatherInfo']);
+    }
 
+    /**
+     * Generál a térképen való megjelenítéshez egy táblázatot városonként
+     */
+    private function generateTable($info, $city)
+    {
+
+        $html = '<table class="table">';
+        $html .= '<h4>'.$city.'</h4>';
+        $html .= '<thead>';
+        $html .= '<tr>';
+        $html .= '<th>Frissítés ideje</th>';
+        $html .= '<th>Hőmérséklet</th>';
+        $html .= '<th>Harmatpont</th>';
+        $html .= '<th>Páratartalom</th>';
+        $html .= '</tr>';
+        $html .= '</thead>';
+
+        $html .= '<tbody>';
+
+        foreach($info as $item){
+            $html .= '<tr>';
+            $html .= '<th scope="row">'.$item['create_date'].'</th>';
+            $html .= '<td>'.$item['temperature'].'</td>';
+            $html .= '<td>'.$item['dewpoint'].'</td>';
+            $html .= '<td>'.$item['relativehumidity'].'</td>';
+            $html .= '</tr>';
+        }
+        $html .= '</tbody>';
+        $html .= '</table>';
+
+        return $html;
     }
 
     /**
@@ -62,6 +106,27 @@ class Weather {
             $weatherModel->data = $city;
             $weatherModel->weatherSave();
         }
+    }
+
+    /**
+     * XML exportálása
+     */
+    private function exportXML()
+    {
+        $weatherModel = new WeatherModel();
+        $weatherModel->getAllDataFromTable();
+        $weatherModel->result;
+
+        $filename ="data.xls";
+        header('Content-type: application/ms-excel');
+        header('Content-Disposition: attachment; filename='.$filename);
+        echo $htmlcontent;
+        $out = fopen("php://output", 'w');
+        foreach ($weatherModel->result as $data)
+        {
+            fputcsv($out, $data,"\t");
+        }
+        echo ($out);
     }
 
 
@@ -138,5 +203,48 @@ class Weather {
         $weatherXML = $result->GetWeatherResult;
         $xml = simplexml_load_string($weatherXML);
         return $weatherXML;
+    }
+
+    private function geocode($address){
+
+        // url encode the address
+        $address = urlencode($address);
+
+        // google map geocode api url
+        $url = "http://maps.google.com/maps/api/geocode/json?sensor=false&address={$address}";
+
+        // get the json response
+        $resp_json = file_get_contents($url);
+
+        // decode the json
+        $resp = json_decode($resp_json, true);
+
+        // response status will be 'OK', if able to geocode given address
+        if($resp['status']=='OK'){
+
+            // get the important data
+            $lati = $resp['results'][0]['geometry']['location']['lat'];
+            $longi = $resp['results'][0]['geometry']['location']['lng'];
+            $formatted_address = $resp['results'][0]['formatted_address'];
+
+            // verify if data is complete
+            if($lati && $longi && $formatted_address){
+
+                // put the data in the array
+                $data_arr = array(
+                    'lati' => $lati,
+                    'longi' => $longi,
+                    'formatted_address' => $formatted_address
+                );
+
+                return $data_arr;
+
+            }else{
+                return false;
+            }
+
+        }else{
+            return false;
+        }
     }
 }

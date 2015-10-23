@@ -1,1 +1,9 @@
 p.bg-success{ padding: 15px; }
+#map{display: block; height: 800px; width: 100%;}
+#map-open {
+    height: 800px;
+    width: 100%;
+}
+.popover-content {width: 700px !important;}
+#map-open .popover { display: inline-table !important; }
+

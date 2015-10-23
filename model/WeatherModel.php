@@ -29,9 +29,23 @@ class WeatherModel {
             "id" => $this->data
         ));
         while($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-            $this->result = $row;
+            $this->result[] = $row;
         }
     }
+
+    /**
+     * Lekérdezi az összes elemet
+     */
+    public function getAllDataFromTable()
+    {
+        $statement = $this->db->prepare("SELECT * FROM ".$this->table);
+        $statement->execute(array());
+        while($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $this->result[] = $row;
+        }
+    }
+
+
 
     /**
      * Időjárás mentése adatbázisba
@@ -47,7 +61,6 @@ class WeatherModel {
      */
     private function saveWeatherConfig()
     {
-        //'id', 'city_id', 'city', 'country', 'location', 'time', 'wind', 'visibility', 'skyconditions', 'temperature', 'dewpoint', 'relativehumidity', 'pressure', 'pressuretendency', 'status', 'create_date'
         $this->weatherSqlData['id'] = 'NULL';
         $this->weatherSqlData['city_id'] = $this->data['id'];
         $this->weatherSqlData['city'] = $this->data['city'];
