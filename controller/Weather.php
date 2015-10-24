@@ -1,6 +1,6 @@
 <?php
 require_once(WROOT.'config.php');
-//echo WROOT.'controller/Xml2array.php';
+require_once(WROOT.'vendor/xls/xls.php');
 /**
  * Created by PhpStorm.
  * User: Oz
@@ -20,6 +20,13 @@ class Weather {
         $this->getCitys();
         $this->result->allData['cityList'] = $this->cityList;
         $this->getWeatherInfo();
+        if($_REQUEST['xml'] == '1'){
+            $this->exportXML();
+        }elseif($_REQUEST['xls'] == '1'){
+            $this->exportXLS();
+        }elseif($_REQUEST['csv'] == '1'){
+            $this->exportCSV();
+        }
 
         if(!$ajaxFunction) {
             $this->result->template = "weather.tpl";
@@ -28,15 +35,6 @@ class Weather {
                 case "saveWeatherAjax":
                    $this->saveWeatherAjax();
                    break;
-                case "exportXML":
-                    $this->exportXML();
-                    break;
-                case "exportXLS":
-                    $this->exportXLS();
-                    break;
-                case "exportCSV":
-                    $this->exportCSV();
-                    break;
                 default:
                     return false;
             }
@@ -117,18 +115,90 @@ class Weather {
         $weatherModel->getAllDataFromTable();
         $weatherModel->result;
 
-        $filename ="data.xls";
-        header('Content-type: application/ms-excel');
-        header('Content-Disposition: attachment; filename='.$filename);
-        echo $htmlcontent;
-        $out = fopen("php://output", 'w');
-        foreach ($weatherModel->result as $data)
-        {
-            fputcsv($out, $data,"\t");
-        }
-        echo ($out);
+        header('Content-type: text/xml');
+        header('Content-Disposition: attachment; filename="export.xml"');
+        echo $this->arrayToXml($weatherModel->result);
+        exit();
+
     }
 
+    private function arrayToXml($array, $rootElement = null, $xml = null)
+    {
+
+        $_xml = $xml;
+
+
+        if ($_xml === null) {
+            $_xml = new SimpleXMLElement($rootElement !== null ? $rootElement : '<root/>');
+        }
+
+        foreach ($array as $k => $v) {
+            if (is_array($v)) { //nested array
+                $this->arrayToXml($v, $k, $_xml->addChild($k));
+            } else {
+                $_xml->addChild($k, $v);
+            }
+        }
+        return $_xml->asXML();
+    }
+
+    /**
+     * XML exportálása
+     */
+    private function exportXLS()
+    {
+        $weatherModel = new WeatherModel();
+        $weatherModel->getAllDataFromTable();
+        $weatherModel->result;
+
+        $filename = 'export.xls'; // The file name you want any resulting file to be called.
+
+        $xls = new ExportXLS($filename);
+        $header = array('ID','City ID','Város','Ország','Hely','Dátum','Szél','Látótávolság','Általános','Hőmérséklet','Harmatpont (legalacsonyabb hőmérséklet)','Páratartalom','Nyomás','Nyomás tendencia','Státusz','Létrehozás ideje');
+        $xls->addHeader($header);
+
+        $xls->addRow($weatherModel->result);
+        $xls->sendFile();
+    }
+
+    /**
+     * XML exportálása
+     */
+    private function exportCSV()
+    {
+        $weatherModel = new WeatherModel();
+        $weatherModel->getAllDataFromTable();
+        $weatherModel->result;
+
+        $fileName = 'export.csv';
+
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header('Content-Description: File Transfer');
+        header("Content-type: text/csv");
+        header("Content-Disposition: attachment; filename={$fileName}");
+        header("Expires: 0");
+        header("Pragma: public");
+
+        $fh = @fopen( 'php://output', 'w' );
+
+        $headerDisplayed = false;
+
+        foreach ( $weatherModel->result as $data ) {
+            // Add a header row if it hasn't been added yet
+            if ( !$headerDisplayed ) {
+                // Use the keys from $data as the titles
+                fputcsv($fh, array_keys($data));
+                $headerDisplayed = true;
+            }
+
+            // Put the data into the stream
+            fputcsv($fh, $data);
+        }
+        // Close the file
+        fclose($fh);
+        // Make sure nothing else is sent, our file is done
+        exit;
+    }
 
     /**
      * Lekérdezi az aktuális időjárást

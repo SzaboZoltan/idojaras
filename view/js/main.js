@@ -8,9 +8,6 @@ BaseJs = function () {
     _this.init = function () {
         _this.ajaxUrl = '/index.php';
         _this.getWeatherAjax();
-        _this.exportXML();
-        _this.exportXLS();
-        _this.exportCSV();
     };
 
     _this.getWeatherAjax = function () {
@@ -37,77 +34,6 @@ BaseJs = function () {
         });
     };
 
-    _this.exportXML = function () {
-
-        var data;
-
-        $('#exportXML').on('click', function () {
-
-            data = {
-                'ajaxFunction': 'exportXML'
-            };
-
-            $.ajax({
-                type: 'GET',
-                url: _this.ajaxUrl,
-                data: data
-            }).done(function() {
-
-            }).error(function () {
-                console.log();
-            });
-            return false;
-
-        });
-    };
-
-    _this.exportXLS = function () {
-
-        var data;
-
-        $('#exportXLS').on('click', function () {
-
-            data = {
-                'ajaxFunction': 'exportXLS'
-            };
-
-            $.ajax({
-                type: 'GET',
-                url: _this.ajaxUrl,
-                data: data
-            }).done(function() {
-
-            }).error(function () {
-                console.log();
-            });
-            return false;
-
-        });
-    };
-
-    _this.exportCSV = function () {
-
-        var data;
-
-        $('#exportCSV').on('click', function () {
-
-            data = {
-                'ajaxFunction': 'exportCSV'
-            };
-
-            $.ajax({
-                type: 'GET',
-                url: _this.ajaxUrl,
-                data: data
-            }).done(function() {
-
-            }).error(function () {
-                console.log();
-            });
-            return false;
-
-        });
-    };
 };
 
 

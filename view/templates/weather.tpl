@@ -11,9 +11,9 @@
     <div class="col-xs-12 col-sm-6 col-md-12">
         <form name="weather-form">
             <button id="getWeather" type="submit" class="btn btn-warning">Aktuális időjárás adatok lekérése a www.webservicex.net oldalról</button>
-            <button id="exportXML" type="submit" class="btn btn-primary">Export XML</button>
-            <button id="exportXLS" type="submit" class="btn btn-primary">Export XLS</button>
-            <button id="exportCSV" type="submit" class="btn btn-primary">Export CSV</button>
+            <button id="exportXML" type="submit" name="xml" value="1" class="btn btn-primary">Export XML</button>
+            <button id="exportXLS" type="submit" name="xls" value="1" class="btn btn-primary">Export XLS</button>
+            <button id="exportCSV" type="submit" name="csv" value="1" class="btn btn-primary">Export CSV</button>
         </form>
     </div>
 </div>

@@ -15,7 +15,7 @@
 */
 
 /*
-  
+
 	Filename	: export.xls.class.php
 	Description	: A small light weight PHP class to allow the creation of simple xls excel spreadsheets from array data.
 	Version 	: 1.01
@@ -140,7 +140,7 @@ class ExportXLS {
 
 	private function build($array) {
 	#build and return the headers 
-
+        $build = '';
 		foreach($array as $key=>$row) {
 			$colNo = 0;
 			foreach($row as $key2=>$field) {
