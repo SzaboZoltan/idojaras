@@ -98,12 +98,22 @@ class Weather {
      */
     private function saveWeatherAjax()
     {
+        $error = false;
         $this->getNewWeather();
-        foreach($this->cityList as $city){
-            $weatherModel = new WeatherModel();
-            $weatherModel->data = $city;
-            $weatherModel->weatherSave();
+        if(!empty($this->cityList)) {
+            foreach ($this->cityList as $city) {
+                $weatherModel = new WeatherModel();
+                $weatherModel->data = $city;
+                $weatherModel->weatherSave();
+                if (!$weatherModel->result) {
+                    $error = true;
+                }
+            }
+        }else{
+            $error = true;
         }
+
+    echo (!$error)?1:0;
     }
 
     /**

@@ -53,7 +53,10 @@ class WeatherModel {
     public function weatherSave()
     {
         $this->saveWeatherConfig();
-        $this->saveWeatherDb();
+        if($this->saveWeatherDb())
+            $this->result = true;
+        else
+            $this->result = false;
     }
 
     /**s
@@ -82,7 +85,7 @@ class WeatherModel {
     private function saveWeatherDb()
     {
         $statement = $this->db->prepare("INSERT INTO ".$this->table."(id, city_id, city, country, location, time, wind, visibility, skyconditions, temperature, dewpoint, relativehumidity, pressure, pressuretendency, status, create_date) VALUES(:id, :city_id, :city, :country, :location, :time, :wind, :visibility, :skyconditions, :temperature, :dewpoint, :relativehumidity, :pressure, :pressuretendency, :status, :create_date)");
-        $statement->execute($this->weatherSqlData);
+        if($statement->execute($this->weatherSqlData)) return true; else false;
     }
 
     /**

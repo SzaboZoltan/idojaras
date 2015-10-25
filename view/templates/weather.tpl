@@ -1,4 +1,6 @@
 <h1>Városok időjárási adatainak lekérdezése és megjelenítése</h1>
+<div id="success-data" class="ajax-return alert alert-success hide" role="alert">Adatok lekérése és mentése sikeres!</div>
+<div id="error-data" class="ajax-return alert alert-warning hide" role="alert">Hiba az adatok lekérése és feldolgozása közben! Próbálja meg később!</div>
 <div class="row">
     <h3>Városok listája</h3>
     <ol>
@@ -10,7 +12,7 @@
 <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-12">
         <form name="weather-form">
-            <button id="getWeather" type="submit" class="btn btn-warning">Aktuális időjárás adatok lekérése a www.webservicex.net oldalról</button>
+            <button id="getWeather" type="submit" class="btn btn-warning" data-loading-text="Adatok lekérés és mentése folyamatban. Kérem várjon!">Aktuális időjárás adatok lekérése a www.webservicex.net oldalról</button>
             <button id="exportXML" type="submit" name="xml" value="1" class="btn btn-primary">Export XML</button>
             <button id="exportXLS" type="submit" name="xls" value="1" class="btn btn-primary">Export XLS</button>
             <button id="exportCSV" type="submit" name="csv" value="1" class="btn btn-primary">Export CSV</button>

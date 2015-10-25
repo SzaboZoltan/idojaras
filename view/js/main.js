@@ -12,10 +12,13 @@ BaseJs = function () {
 
     _this.getWeatherAjax = function () {
 
-        var data;
+        var data,
+            successMessage = $('#success-data'),
+            errorMessage = $('#success-data');
 
         $('#getWeather').on('click', function () {
-
+            var btn = $(this);
+            btn.button('loading');
             data = {
                 'ajaxFunction': 'saveWeatherAjax'
             };
@@ -24,8 +27,17 @@ BaseJs = function () {
                 type: 'GET',
                 url: _this.ajaxUrl,
                 data: data
-            }).done(function() {
-
+            }).done(function(resultData) {
+                if(resultData == '1'){
+                    $('#success-data').removeClass('hide').delay( 800 ).addClass('hide');
+                    successMessage.removeClass('hide');
+                    setTimeout(function(){ successMessage.addClass('hide'); }, 5000);
+                }else{
+                    $('#error-data').removeClass('hide');
+                    errorMessage.removeClass('hide');
+                    setTimeout(function(){ errorMessage.addClass('hide'); }, 5000);
+                }
+                btn.button('reset')
             }).error(function () {
                 console.log();
             });
@@ -33,7 +45,6 @@ BaseJs = function () {
 
         });
     };
-
 };
 
 
