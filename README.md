@@ -1,12 +1,37 @@
 ## ChatAKI Embed (Web Component) – WordPress bővítmény
 
+### Tartalomjegyzék
+
+- [ChatAKI Embed (Web Component) – WordPress bővítmény](#chataki-embed-web-component--wordpress-bővítmény)
+  - [Fő funkciók](#fő-funkciók)
+  - [Telepítés](#telepítés)
+    - [1. Követelmények](#1-követelmények)
+    - [2. Fájlok másolása](#2-fájlok-másolása)
+    - [3. Aktiválás](#3-aktiválás)
+  - [Beállítások – Admin felület](#beállítások--admin-felület)
+    - [Elérhető mezők](#elérhető-mezők)
+  - [Shortcode használat](#shortcode-használat)
+    - [Alap inline használat](#alap-inline-használat)
+    - [Popup mód](#popup-mód)
+  - [Shortcode attribútumok – Web Component paraméterezés](#shortcode-attribútumok--web-component-paraméterezés)
+  - [Működés technikai részletek](#működés-technikai-részletek)
+    - [Főtípusok és osztályok](#főtípusok-és-osztályok)
+    - [Asset betöltés](#asset-betöltés)
+  - [Tipikus hibák és elhárításuk](#tipikus-hibák-és-elhárításuk)
+  - [Licenc és szerzői jog](#licenc-és-szerzői-jog)
+  - [Függvények részletesen](#függvények-részletesen)
+    - [`chataki-embed.php`](#chataki-embedphp)
+    - [`ChatAKI\Embed\Plugin` osztály](#chatakiembedplugin-osztály)
+    - [`ChatAKI\Embed\Settings` osztály](#chatakiembedsettings-osztály)
+    - [`ChatAKI\Embed\Shortcode` osztály](#chatakiembedshortcode-osztály)
+
 A **ChatAKI Embed** WordPress bővítmény, amely a ChatAKI `&lt;embed-chat&gt;` Web Componentet ágyazza be az oldaladra. 
 Két fő megjelenítési módot támogat:
 
 - **Inline mód**: a chat közvetlenül a tartalomban jelenik meg.
 - **Popup mód**: a képernyő egyik sarkában felugró, ikonról nyitható chat ablak.
 
-Az aktuális verzió: **2.0.0**
+Az aktuális verzió: **1.0**
 
 ---
 
