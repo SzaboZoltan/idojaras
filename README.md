@@ -9,6 +9,7 @@
 
 - [ChatAKI Embed (Web Component) – WordPress bővítmény](#chataki-embed-web-component--wordpress-bővítmény)
   - [Fő funkciók](#fő-funkciók)
+  - [Projekt struktúra](#projekt-struktúra)
   - [Telepítés](#telepítés)
     - [1. Követelmények](#1-követelmények)
     - [2. Fájlok másolása](#2-fájlok-másolása)
@@ -31,7 +32,7 @@
     - [`ChatAKI\Embed\Shortcode` osztály](#chatakiembedshortcode-osztály)
 
 A **ChatAKI Embed** WordPress bővítmény, amely a ChatAKI `&lt;embed-chat&gt;` Web Componentet ágyazza be az oldaladra, és modern, gyors chat-élményt ad a látogatóidnak.  
-**Típus**: WordPress bővítmény • **Komponens**: `&lt;embed-chat&gt;` Web Component • **Verzió**: `2.0.0`
+**Típus**: WordPress bővítmény • **Komponens**: `&lt;embed-chat&gt;` Web Component • **Verzió**: `1.0`
 
 Két fő megjelenítési módot támogat:
 
@@ -67,6 +68,31 @@ Két fő megjelenítési módot támogat:
   - csak `is_singular()` oldalon és shortcode jelenlét esetén tölt be asseteket;
   - szigorú típushasználat (PHP 8.3), `declare(strict_types=1)`;
   - WordPress `sanitize` és `esc_*` függvények következetes használata.
+
+---
+
+## Projekt struktúra
+
+```text
+chataki-embed/
+├─ chataki-embed.php
+├─ readme.md
+├─ readme.txt
+├─ includes/
+│  ├─ class-chataki-plugin.php
+│  ├─ class-chataki-settings.php
+│  └─ class-chataki-shortcode.php
+└─ assets/
+   ├─ css/
+   │  └─ popup.css
+   └─ js/
+      └─ popup.js
+```
+
+- **`chataki-embed.php`**: a fő plugin bootstrap fájl, metaadatokkal és inicializálással.
+- **`readme.md` / `readme.txt`**: fejlesztői és WordPress.org leírások.
+- **`includes/`**: a plugin üzleti logikája (plugin „glue” réteg, admin beállítások, shortcode renderelés).
+- **`assets/css/` és `assets/js/`**: a popup keret megjelenítéséhez és működéséhez szükséges statikus fájlok.
 
 ---
 
